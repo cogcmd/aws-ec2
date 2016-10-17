@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!/usr/local/var/rbenv/versions/2.3.1/bin/ruby
 
 # Add the lib directory to the load path
 libdir = File.join(File.dirname(__FILE__), 'lib')
