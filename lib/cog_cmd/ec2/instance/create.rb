@@ -1,7 +1,7 @@
-require 'ec2/client'
+require 'ec2/command'
 
 module CogCmd::Ec2::Instance
-  class Create < Cog::Command
+  class Create < Ec2::Command
     def run_command
       require_valid_region!
       require_image_id!
@@ -22,7 +22,6 @@ module CogCmd::Ec2::Instance
         params[:max_count = count
       end
 
-      client = Ec2::Client.new(region)
       instances = client.create_instances(params, tags || [])
 
       response.content = instances
@@ -56,20 +55,6 @@ module CogCmd::Ec2::Instance
       request.options['count']
     end
 
-    def region
-      request.options['region'] || ENV['AWS_REGION']
-    end
-
-    def require_valid_region!
-      unless region
-        raise(Cog::Error, 'Region not set. Set a region via the -r,--region flag or the `AWS_REGION` environment variable.')
-      end
-
-      unless valid_regions.include?(region)
-        raise(Cog::Error, "Unknown region. Select a region from the list of valid regions: #{valid_regions.join(', ')}")
-      end
-    end
-
     def require_image_id!
       unless image_id
         raise(Cog::Error, "Image ID not set. Set an image ID via the -i,--image-id flag.")
@@ -82,20 +67,6 @@ module CogCmd::Ec2::Instance
       unless valid_instance_types.include?(instance_type)
         raise(Cog::Error, "Unknown instance type. Select an instance type from the list of valid instance types: #{valid_instance_types.join(', ')}")
       end
-    end
-
-    def valid_regions
-      ['us-east-1',
-       'us-west-1',
-       'us-west-2',
-       'eu-west-1',
-       'eu-central-1',
-       'ap-southeast-1',
-       'ap-southeast-2',
-       'ap-northeast-1',
-       'ap-northeast-2',
-       'ap-south-1',
-       'sa-east-1']
     end
 
     def valid_instance_types
