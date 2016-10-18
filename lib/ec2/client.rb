@@ -9,12 +9,13 @@ module Ec2
     end
 
     def list_instances
-      reservations = client.describe_instances.reservations
-      reservations.flat_map(&:instances).map(&:to_h)
+      response = client.describe_instances
+      response.reservations.flat_map(&:instances).map(&:to_h)
     end
 
-    def create_instance(params, tags)
-      instances = client.run_instances(params)
+    def create_instances(params, tags)
+      response = client.run_instances(params)
+      instances = response.instances
 
       unless tags.empty?
         instance_ids = instances.map(&:instance_id)
@@ -22,6 +23,11 @@ module Ec2
       end
 
       instances.map(&:to_h)
+    end
+
+    def destroy_instances(instance_ids)
+      response = client.terminate_instances(instance_ids: instance_ids)
+      response.terminating_instances.map(&:to_h)
     end
   end
 end

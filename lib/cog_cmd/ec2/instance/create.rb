@@ -23,7 +23,7 @@ module CogCmd::Ec2::Instance
       end
 
       client = Ec2::Client.new(region)
-      instances = client.create_instance(params, tags || [])
+      instances = client.create_instances(params, tags || [])
 
       response.content = instances
     end
