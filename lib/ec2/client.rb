@@ -44,5 +44,9 @@ module Ec2
       response = client.reboot_instances(instance_ids: instance_ids)
       response.stopping_instances.map(&:to_h)
     end
+
+    def tag_instance(instance_id, tags)
+      client.create_tags(resources: [instance_id], tags: tags)
+    end
   end
 end

@@ -49,7 +49,7 @@ module CogCmd::Ec2::Instance
     end
 
     def tags
-      request.options['tags'].split(',').map { |t| k, v = t.split('=') { key: k, value: v} }
+      request.options['tags'].split(',').map { |t| k, v = t.split('='); { key: k, value: v} }
     end
 
     def count
