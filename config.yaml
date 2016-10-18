@@ -5,6 +5,52 @@ name: ec2
 description: Manage EC2 instances and related services
 version: 0.1.0
 commands:
+  instance-create:
+    executable: /Users/vanstee/Code/cogcmd/aws-ec2/cog-command
+    description: Creates an instance
+    rules:
+      - allow
+    options:
+      image-id:
+        type: string
+        required: true
+        description: ID of the AMI. Run ec2:image-list for list of available AMIs.
+        short_flag: i
+      instance-type:
+        type: string
+        required: false
+        description: "Type of instance. Defaults to m1.small. Available types: t1.micro, t2.nano, t2.micro, t2.small, t2.medium, t2.large, m1.small, m1.medium, m1.large, m1.xlarge, m3.medium, m3.large, m3.xlarge, m3.2xlarge, m4.large, m4.xlarge, m4.2xlarge, m4.4xlarge, m4.10xlarge, m4.16xlarge, m2.xlarge, m2.2xlarge, m2.4xlarge, cr1.8xlarge, r3.large, r3.xlarge, r3.2xlarge, r3.4xlarge, r3.8xlarge, x1.16xlarge, x1.32xlarge, i2.xlarge, i2.2xlarge, i2.4xlarge, i2.8xlarge, hi1.4xlarge, hs1.8xlarge, c1.medium, c1.xlarge, c3.large, c3.xlarge, c3.2xlarge, c3.4xlarge, c3.8xlarge, c4.large, c4.xlarge, c4.2xlarge, c4.4xlarge, c4.8xlarge, cc1.4xlarge, cc2.8xlarge, g2.2xlarge, g2.8xlarge, cg1.4xlarge, p2.xlarge, p2.8xlarge, p2.16xlarge, d2.xlarge, d2.2xlarge, d2.4xlarge, d2.8xlarge."
+        short_flag: m
+      key-name:
+        type: string
+        required: false
+        description: Name of the key pair.
+        short_flag: k
+      availability-zone:
+        type: string
+        required: false
+        description: Availbility Zone inside the region specified.
+        short_flag: z
+      subnet-id:
+        type: string
+        required: false
+        description: ID of the subnet. Used within a VPC.
+        short_flag: s
+      tags:
+        type: string
+        required: false
+        description: Tags to assign Defined with the following pattern <key>=<value>.
+        short_flag: t
+      count:
+        type: int
+        required: false
+        description: Number of instances to create. Defaults to 1
+        short_flag: c
+      region:
+        type: string
+        required: false
+        description: EC2 location to connect to (us-east-1, us-west-2, us-west-1, eu-west-1, eu-central-1, ap-southeast-1, ap-northeast-1, ap-southeast-2, ap-northeast-2, ap-south-1, sa-east-1)
+        short_flag: r
   instance-list:
     executable: /Users/vanstee/Code/cogcmd/aws-ec2/cog-command
     description: Lists instances
