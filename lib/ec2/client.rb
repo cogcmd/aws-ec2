@@ -48,5 +48,10 @@ module Ec2
     def tag_instance(instance_id, tags)
       client.create_tags(resources: [instance_id], tags: tags)
     end
+
+    def list_keypairs
+      response = client.describe_key_pairs
+      response.key_pairs.map(&:to_h)
+    end
   end
 end
