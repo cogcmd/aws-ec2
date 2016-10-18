@@ -100,4 +100,15 @@ commands:
         required: false
         short_flag: r
         description: EC2 location to connect to (us-east-1, us-west-2, us-west-1, eu-west-1, eu-central-1, ap-southeast-1, ap-northeast-1, ap-southeast-2, ap-northeast-2, ap-south-1, sa-east-1)
+  instance-reboot:
+    executable: /Users/vanstee/Code/cogcmd/aws-ec2/cog-command
+    description: Reboots instances
+    rules:
+      - allow
+    options:
+      region:
+        type: string
+        required: false
+        short_flag: r
+        description: EC2 location to connect to (us-east-1, us-west-2, us-west-1, eu-west-1, eu-central-1, ap-southeast-1, ap-northeast-1, ap-southeast-2, ap-northeast-2, ap-south-1, sa-east-1)
 permissions: []

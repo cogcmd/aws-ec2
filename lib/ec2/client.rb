@@ -39,5 +39,10 @@ module Ec2
       response = client.stop_instances(instance_ids: instance_ids, force: force)
       response.stopping_instances.map(&:to_h)
     end
+
+    def reboot_instances(instance_ids)
+      response = client.reboot_instances(instance_ids: instance_ids)
+      response.stopping_instances.map(&:to_h)
+    end
   end
 end
