@@ -53,5 +53,10 @@ module Ec2
       response = client.describe_key_pairs
       response.key_pairs.map(&:to_h)
     end
+
+    def list_vpcs
+      response = client.describe_vpcs
+      response.vpcs.map(&:to_h)
+    end
   end
 end
