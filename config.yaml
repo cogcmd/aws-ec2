@@ -55,7 +55,7 @@ commands:
     executable: /Users/vanstee/Code/cogcmd/aws-ec2/cog-command
     description: Lists instances
     rules:
-      - allow
+      - ec2:read
     options:
       region:
         type: string
@@ -66,7 +66,7 @@ commands:
     executable: /Users/vanstee/Code/cogcmd/aws-ec2/cog-command
     description: Destroys instances
     rules:
-      - allow
+      - ec2:admin
     options:
       region:
         type: string
@@ -77,7 +77,7 @@ commands:
     executable: /Users/vanstee/Code/cogcmd/aws-ec2/cog-command
     description: Starts instances
     rules:
-      - allow
+      - ec2:write
     options:
       region:
         type: string
@@ -88,7 +88,7 @@ commands:
     executable: /Users/vanstee/Code/cogcmd/aws-ec2/cog-command
     description: Starts instances
     rules:
-      - allow
+      - ec2:write
     options:
       force:
         type: bool
@@ -104,7 +104,7 @@ commands:
     executable: /Users/vanstee/Code/cogcmd/aws-ec2/cog-command
     description: Reboots instances
     rules:
-      - allow
+      - ec2:write
     options:
       region:
         type: string
@@ -115,7 +115,7 @@ commands:
     executable: /Users/vanstee/Code/cogcmd/aws-ec2/cog-command
     description: Tags an instance
     rules:
-      - allow
+      - ec2:write
     options:
       region:
         type: string
@@ -126,7 +126,7 @@ commands:
     executable: /Users/vanstee/Code/cogcmd/aws-ec2/cog-command
     description: Lists keypairs
     rules:
-      - allow
+      - ec2:read
     options:
       region:
         type: string
@@ -137,11 +137,14 @@ commands:
     executable: /Users/vanstee/Code/cogcmd/aws-ec2/cog-command
     description: Lists VPCs
     rules:
-      - allow
+      - ec2:read
     options:
       region:
         type: string
         required: false
         short_flag: r
         description: EC2 location to connect to (us-east-1, us-west-2, us-west-1, eu-west-1, eu-central-1, ap-southeast-1, ap-northeast-1, ap-southeast-2, ap-northeast-2, ap-south-1, sa-east-1)
-permissions: []
+permissions:
+  - ec2:read
+  - ec2:write
+  - ec2:admin
