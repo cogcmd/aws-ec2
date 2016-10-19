@@ -1,4 +1,5 @@
 require 'ec2/command'
+require 'ec2/views/instance_view'
 
 module CogCmd::Ec2::Instance
   class List < Ec2::Command
@@ -7,7 +8,8 @@ module CogCmd::Ec2::Instance
 
       instances = client.list_instances
 
-      response.content = instances
+      response.template = 'instance_list'
+      response.content = Ec2::Views::InstanceView.render(instances)
     end
   end
 end

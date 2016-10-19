@@ -1,7 +1,10 @@
 require 'ec2/command'
+require 'ec2/views/instance_view'
 
 module CogCmd::Ec2::Instance
   class Create < Ec2::Command
+    DEFAULT_COUNT = 1
+
     def run_command
       require_valid_region!
       require_image_id!
@@ -10,21 +13,19 @@ module CogCmd::Ec2::Instance
       params = { image_id:      image_id,
                  instance_type: instance_type,
                  key_name:      key_name,
-                 subnet_id:     subnet_id,
-                 region:        region }.reject { |_, v| v.nil? }
+                 subnet_id:     subnet_id }.reject { |_, v| v.nil? }
 
       if availability_zone
         params[:placement] = { availability_zone: availability_zone }
       end
 
-      if count
-        params[:min_count] = count
-        params[:max_count = count
-      end
+      params[:min_count] = count
+      params[:max_count] = count
 
       instances = client.create_instances(params, tags || [])
 
-      response.content = instances
+      response.template = 'instance_list'
+      response.content = Ec2::Views::InstanceView.render(instances)
     end
 
     def image_id
@@ -39,7 +40,7 @@ module CogCmd::Ec2::Instance
       request.options['key-name']
     end
 
-    def avilability_zone
+    def availability_zone
       request.options['availability-zone']
     end
 
@@ -48,11 +49,11 @@ module CogCmd::Ec2::Instance
     end
 
     def tags
-      request.options['tags'].split(',').map { |t| k, v = t.split('='); { key: k, value: v} }
+      request.options['tags'].to_s.split(',').map { |t| k, v = t.split('='); { key: k, value: v} }
     end
 
     def count
-      request.options['count']
+      request.options['count'] || DEFAULT_COUNT
     end
 
     def require_image_id!

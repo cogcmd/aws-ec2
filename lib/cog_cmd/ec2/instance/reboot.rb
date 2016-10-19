@@ -8,7 +8,8 @@ module CogCmd::Ec2::Instance
 
       client.reboot_instances(instance_ids)
 
-      response.content = []
+      response.template = 'instance_reboot'
+      response.content = instance_ids.map { |id| { instance_id: id } }
     end
 
     def require_instance_ids!

@@ -9,7 +9,8 @@ module CogCmd::Ec2::Instance
 
       instances = client.tag_instance(instance_id, tags)
 
-      response.content = []
+      response.template = 'instance_tag'
+      response.content = [{ instance_id: instance_id, tags: tags }]
     end
 
     def require_instance_id!

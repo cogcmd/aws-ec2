@@ -10,7 +10,7 @@ module Ec2
 
     def list_instances
       response = client.describe_instances
-      response.reservations.flat_map(&:instances).map(&:to_h)
+      response.reservations.flat_map(&:instances)
     end
 
     def create_instances(params, tags)
@@ -22,27 +22,26 @@ module Ec2
         client.create_tags(resources: instance_ids, tags: tags)
       end
 
-      instances.map(&:to_h)
+      instances
     end
 
     def destroy_instances(instance_ids)
       response = client.terminate_instances(instance_ids: instance_ids)
-      response.terminating_instances.map(&:to_h)
+      response.terminating_instances
     end
 
     def start_instances(instance_ids)
       response = client.start_instances(instance_ids: instance_ids)
-      response.starting_instances.map(&:to_h)
+      response.starting_instances
     end
 
     def stop_instances(instance_ids, force = false)
       response = client.stop_instances(instance_ids: instance_ids, force: force)
-      response.stopping_instances.map(&:to_h)
+      response.stopping_instances
     end
 
     def reboot_instances(instance_ids)
-      response = client.reboot_instances(instance_ids: instance_ids)
-      response.stopping_instances.map(&:to_h)
+      client.reboot_instances(instance_ids: instance_ids)
     end
 
     def tag_instance(instance_id, tags)
@@ -51,12 +50,12 @@ module Ec2
 
     def list_keypairs
       response = client.describe_key_pairs
-      response.key_pairs.map(&:to_h)
+      response.key_pairs
     end
 
     def list_vpcs
       response = client.describe_vpcs
-      response.vpcs.map(&:to_h)
+      response.vpcs
     end
   end
 end

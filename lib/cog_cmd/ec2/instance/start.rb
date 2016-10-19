@@ -8,7 +8,8 @@ module CogCmd::Ec2::Instance
 
       instances = client.start_instances(instance_ids)
 
-      response.content = instances
+      response.template = 'instance_start'
+      response.content = instances.map(&:to_h)
     end
 
     def require_instance_ids!

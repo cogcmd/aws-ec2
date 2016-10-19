@@ -13,7 +13,7 @@ commands:
     options:
       image-id:
         type: string
-        required: true
+        required: false
         description: ID of the AMI. Run ec2:image-list for list of available AMIs.
         short_flag: i
       instance-type:
@@ -55,7 +55,7 @@ commands:
     executable: /Users/vanstee/Code/cogcmd/aws-ec2/cog-command
     description: Lists instances
     rules:
-      - ec2:read
+      - must have ec2:read
     options:
       region:
         type: string
@@ -66,7 +66,7 @@ commands:
     executable: /Users/vanstee/Code/cogcmd/aws-ec2/cog-command
     description: Destroys instances
     rules:
-      - ec2:admin
+      - must have ec2:admin
     options:
       region:
         type: string
@@ -77,7 +77,7 @@ commands:
     executable: /Users/vanstee/Code/cogcmd/aws-ec2/cog-command
     description: Starts instances
     rules:
-      - ec2:write
+      - must have ec2:write
     options:
       region:
         type: string
@@ -86,9 +86,9 @@ commands:
         description: EC2 location to connect to (us-east-1, us-west-2, us-west-1, eu-west-1, eu-central-1, ap-southeast-1, ap-northeast-1, ap-southeast-2, ap-northeast-2, ap-south-1, sa-east-1)
   instance-stop:
     executable: /Users/vanstee/Code/cogcmd/aws-ec2/cog-command
-    description: Starts instances
+    description: Stops instances
     rules:
-      - ec2:write
+      - must have ec2:write
     options:
       force:
         type: bool
@@ -104,7 +104,7 @@ commands:
     executable: /Users/vanstee/Code/cogcmd/aws-ec2/cog-command
     description: Reboots instances
     rules:
-      - ec2:write
+      - must have ec2:write
     options:
       region:
         type: string
@@ -115,7 +115,7 @@ commands:
     executable: /Users/vanstee/Code/cogcmd/aws-ec2/cog-command
     description: Tags an instance
     rules:
-      - ec2:write
+      - must have ec2:write
     options:
       region:
         type: string
@@ -126,7 +126,7 @@ commands:
     executable: /Users/vanstee/Code/cogcmd/aws-ec2/cog-command
     description: Lists keypairs
     rules:
-      - ec2:read
+      - must have ec2:read
     options:
       region:
         type: string
@@ -137,7 +137,7 @@ commands:
     executable: /Users/vanstee/Code/cogcmd/aws-ec2/cog-command
     description: Lists VPCs
     rules:
-      - ec2:read
+      - must have ec2:read
     options:
       region:
         type: string
@@ -148,3 +148,68 @@ permissions:
   - ec2:read
   - ec2:write
   - ec2:admin
+templates:
+  instance_list:
+    body: |
+      ~each var=$results as=instance~
+      ~attachment color=$instance.state.color~
+      ~if cond=$instance.tags.Name bound?~**Instance Name:** ~$instance.tags.Name~
+      ~end~
+      **Instance ID:** ~$instance.instance_id~
+      **Instance Type:** ~$instance.instance_type~
+      **Availability Zone:** ~$instance.placement.availability_zone~
+      **Instance State:** ~$instance.state.name~
+      **Public DNS:** ~$instance.public_dns_name~
+      **Public IP:** ~$instance.public_ip_address~
+      **Key Name** ~$instance.key_name~
+      **Launch Time** ~$instance.launch_time~
+      ~end~
+      ~end~
+  instance_start:
+    body: |
+      ~each var=$results as=instance~
+      Started instance ~$instance.instance_id~
+      ~end~
+  instance_destroy:
+    body: |
+      ~each var=$results as=instance~
+      Destroyed instance ~$instance.instance_id~
+      ~end~
+  instance_stop:
+    body: |
+      ~each var=$results as=instance~
+      Stopped instance ~$instance.instance_id~
+      ~end~
+  instance_reboot:
+    body: |
+      ~each var=$results as=instance~
+      Rebooted instance ~$instance.instance_id~
+      ~end~
+  instance_tag:
+    body: |
+      ~each var=$results as=instance~
+      ~each var=$instance.tags as=tag~
+      Tagged instance ~$instance.instance_id~ with ~$tag.key~=~$tag.value~
+      ~end~
+      ~end~
+  keypair_list:
+    body: |
+      | Key Name | Fingerprint |
+      | -------- | ----------- |
+      ~each var=$results as=keypair~
+      | ~$keypair.key_name~ | ~$keypair.key_fingerprint~ |
+      ~end~
+  vpc_list:
+    body: |
+      ~each var=$results as=vpc~
+      ~attachment color=$vpc.state.color~
+      ~if cond=$instance.tags.Name bound?~**VPC Name:** ~$vpc.tags.Name~
+      ~end~
+      **VPC ID:** ~$vpc.vpc_id~
+      **VPC State:** ~$vpc.state.name~
+      **VPC CIDR:** ~$vpc.cidr_block~
+      **DHCP Options Set:** ~$vpc.dhcp_options_id~
+      **Tenancy:** ~$vpc.instance_tenancy~
+      **Default VPC:** ~$vpc.is_default~
+      ~end~
+      ~end~

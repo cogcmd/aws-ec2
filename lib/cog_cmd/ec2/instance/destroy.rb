@@ -8,7 +8,8 @@ module CogCmd::Ec2::Instance
 
       instances = client.destroy_instances(instance_ids)
 
-      response.content = instances
+      response.template = 'instance_destroy'
+      response.content = instances.map(&:to_h)
     end
 
     def require_instance_ids!

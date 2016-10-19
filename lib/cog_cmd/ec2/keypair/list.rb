@@ -7,7 +7,8 @@ module CogCmd::Ec2::Keypair
 
       instances = client.list_keypairs
 
-      response.content = instances
+      response.template = 'keypair_list'
+      response.content = instances.map(&:to_h)
     end
   end
 end
