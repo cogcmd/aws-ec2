@@ -13,6 +13,11 @@ module Ec2
       response.reservations.flat_map(&:instances)
     end
 
+    def search_instances(filters)
+      response = client.describe_instances(filters: filters)
+      response.reservations.flat_map(&:instances)
+    end
+
     def create_instances(params, tags)
       response = client.run_instances(params)
       instances = response.instances
