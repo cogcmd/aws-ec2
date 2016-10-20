@@ -2,6 +2,10 @@
 cog_bundle_version: 4
 
 name: ec2
+version: 0.1.0
+docker:
+  image: cogcmd/aws-ec2
+  tag: 0.1.0
 description: Manage EC2 instances and related services
 long_description: >
   This bundle provides commands for viewing, inspecting, and controlling EC2
@@ -23,12 +27,11 @@ config:
       description: Required secret of the access key used to authenticate with the AWS API
     - var: AWS_REGION
       description: Optional region used for all commands unless one is provided via the -r,--region flag
-version: 0.1.0
 homepage: https://github.com/cogcmd/aws-ec2
 author: Patrick Van Stee <patrick@operable.io>
 commands:
   instance-create:
-    executable: /Users/vanstee/Code/cogcmd/aws-ec2/cog-command
+    executable: /home/bundle/cog-command
     description: Creates instances
     long_description: >
       Creates and starts an EC2 instance with the given image id. You'll most
@@ -89,7 +92,7 @@ commands:
         description: EC2 location to connect to (us-east-1, us-west-2, us-west-1, eu-west-1, eu-central-1, ap-southeast-1, ap-northeast-1, ap-southeast-2, ap-northeast-2, ap-south-1, sa-east-1)
         short_flag: r
   instance-list:
-    executable: /Users/vanstee/Code/cogcmd/aws-ec2/cog-command
+    executable: /home/bundle/cog-command
     description: Lists instances
     long_description: >
       Returns attributes of all instances in the specified (or default) region.
@@ -106,7 +109,7 @@ commands:
         short_flag: r
         description: EC2 location to connect to (us-east-1, us-west-2, us-west-1, eu-west-1, eu-central-1, ap-southeast-1, ap-northeast-1, ap-southeast-2, ap-northeast-2, ap-south-1, sa-east-1)
   instance-search:
-    executable: /Users/vanstee/Code/cogcmd/aws-ec2/cog-command
+    executable: /home/bundle/cog-command
     description: Searches instances with matching attributes
     long_description: >
       Applies filters to all the instances in the specified (or default)
@@ -135,7 +138,7 @@ commands:
         short_flag: r
         description: EC2 location to connect to (us-east-1, us-west-2, us-west-1, eu-west-1, eu-central-1, ap-southeast-1, ap-northeast-1, ap-southeast-2, ap-northeast-2, ap-south-1, sa-east-1)
   instance-destroy:
-    executable: /Users/vanstee/Code/cogcmd/aws-ec2/cog-command
+    executable: /home/bundle/cog-command
     description: Destroys existing instances
     long_description: >
       Shuts down and removes instances. This operation will succeed even if the
@@ -152,7 +155,7 @@ commands:
         short_flag: r
         description: EC2 location to connect to (us-east-1, us-west-2, us-west-1, eu-west-1, eu-central-1, ap-southeast-1, ap-northeast-1, ap-southeast-2, ap-northeast-2, ap-south-1, sa-east-1)
   instance-start:
-    executable: /Users/vanstee/Code/cogcmd/aws-ec2/cog-command
+    executable: /home/bundle/cog-command
     description: Starts existing instances
     arguments: "<instance-id> [<instance-id> ...]"
     rules:
@@ -164,7 +167,7 @@ commands:
         short_flag: r
         description: EC2 location to connect to (us-east-1, us-west-2, us-west-1, eu-west-1, eu-central-1, ap-southeast-1, ap-northeast-1, ap-southeast-2, ap-northeast-2, ap-south-1, sa-east-1)
   instance-stop:
-    executable: /Users/vanstee/Code/cogcmd/aws-ec2/cog-command
+    executable: /home/bundle/cog-command
     description: Stops instances
     arguments: "<instance-id> [<instance-id> ...]"
     rules:
@@ -181,7 +184,7 @@ commands:
         short_flag: r
         description: EC2 location to connect to (us-east-1, us-west-2, us-west-1, eu-west-1, eu-central-1, ap-southeast-1, ap-northeast-1, ap-southeast-2, ap-northeast-2, ap-south-1, sa-east-1)
   instance-reboot:
-    executable: /Users/vanstee/Code/cogcmd/aws-ec2/cog-command
+    executable: /home/bundle/cog-command
     description: Reboots instances
     arguments: "<instance-id> [<instance-id> ...]"
     rules:
@@ -193,7 +196,7 @@ commands:
         short_flag: r
         description: EC2 location to connect to (us-east-1, us-west-2, us-west-1, eu-west-1, eu-central-1, ap-southeast-1, ap-northeast-1, ap-southeast-2, ap-northeast-2, ap-south-1, sa-east-1)
   instance-tag:
-    executable: /Users/vanstee/Code/cogcmd/aws-ec2/cog-command
+    executable: /home/bundle/cog-command
     description: Tags an instance
     long_description: >
       Adds tags to an instance. One or more tags can be included as arguments
@@ -221,7 +224,7 @@ commands:
         short_flag: r
         description: EC2 location to connect to (us-east-1, us-west-2, us-west-1, eu-west-1, eu-central-1, ap-southeast-1, ap-northeast-1, ap-southeast-2, ap-northeast-2, ap-south-1, sa-east-1)
   keypair-list:
-    executable: /Users/vanstee/Code/cogcmd/aws-ec2/cog-command
+    executable: /home/bundle/cog-command
     description: Lists keypairs
     rules:
       - must have ec2:read
@@ -232,7 +235,7 @@ commands:
         short_flag: r
         description: EC2 location to connect to (us-east-1, us-west-2, us-west-1, eu-west-1, eu-central-1, ap-southeast-1, ap-northeast-1, ap-southeast-2, ap-northeast-2, ap-south-1, sa-east-1)
   vpc-list:
-    executable: /Users/vanstee/Code/cogcmd/aws-ec2/cog-command
+    executable: /home/bundle/cog-command
     description: Lists VPCs
     rules:
       - must have ec2:read
