@@ -13,7 +13,7 @@ long_description: >
   API we use the aws-sdk library written in Ruby. Permissions are used to
   control which users are authorized to run each command. Listing and searching
   for resources requires the ec2:read permission. Modifying the state or other
-  values of a resource requires the ec2:write permission. And, creating a new
+  values of a resource requires the ec2:write permission. And, destroying an
   instance requires the ec2:admin permission.
 config:
   notes: >
