@@ -2,10 +2,10 @@
 cog_bundle_version: 4
 
 name: ec2
-version: 0.1.0
+version: 0.1.1
 docker:
   image: cogcmd/aws-ec2
-  tag: 0.1.0
+  tag: 0.1.1
 description: Manage EC2 instances and related services
 long_description: >
   This bundle provides commands for viewing, inspecting, and controlling EC2
@@ -49,7 +49,7 @@ commands:
       ```
       ec2:instance-create -t "Name=super-server" -t "Color=red"```
     rules:
-      - allow
+      - must have ec2:write
     options:
       image-id:
         type: string
