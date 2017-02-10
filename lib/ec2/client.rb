@@ -5,6 +5,7 @@ module Ec2
     attr_reader :client
 
     def initialize(region)
+      maybe_assume_role
       @client = Aws::EC2::Client.new(region: region)
     end
 
@@ -61,6 +62,20 @@ module Ec2
     def list_vpcs
       response = client.describe_vpcs
       response.vpcs
+    end
+
+    private
+
+    # If an AWS STS ROLE is defined, configure the AWS SDK to assume it
+    def maybe_assume_role
+      if ENV['AWS_STS_ROLE_ARN']
+        Aws.config.update(
+          credentials: Aws::AssumeRoleCredentials.new(
+            role_arn: ENV['AWS_STS_ROLE_ARN'],
+            role_session_name: "cog-#{ENV['COG_USER']}"
+          )
+        )
+      end
     end
   end
 end
