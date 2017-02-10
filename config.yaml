@@ -2,10 +2,10 @@
 cog_bundle_version: 4
 
 name: ec2
-version: 0.1.1
+version: 0.1.2
 docker:
   image: cogcmd/aws-ec2
-  tag: 0.1.1
+  tag: 0.1.2
 description: Manage EC2 instances and related services
 long_description: >
   This bundle provides commands for viewing, inspecting, and controlling EC2
@@ -20,13 +20,15 @@ config:
     When creating the access key for use with the following environment
     variables, make sure the IAM user that owns the key has the
     AmazonEC2FullAccess policy.
-  env: 
+  env:
     - var: AWS_ACCESS_KEY_ID
       description: Requried ID of the access key used to authenticate with the AWS API
     - var: AWS_SECRET_ACCESS_KEY
       description: Required secret of the access key used to authenticate with the AWS API
     - var: AWS_REGION
       description: Optional region used for all commands unless one is provided via the -r,--region flag
+    - var: AWS_STS_ROLE_ARN
+      description: Optional AWS IAM role ARN to assume before interacting with the AWS APIs.
 homepage: https://github.com/cogcmd/aws-ec2
 author: Patrick Van Stee <patrick@operable.io>
 commands:
